@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var util = require('util');
+var express = require('express');
 var Subprocess = require("./subprocess");
 var mu = require("mu2");
 mu.root = __dirname + "/templates";
@@ -11,7 +12,8 @@ var argv = require("optimist").default({
     }).argv;
 
 var log = require("logginator")();
-var app = require("express")();
+
+var app = express();
 require('winston-tagged-http-logger')(app, log.createSublogger("http"));
 
 var subprocesses = [];
@@ -25,6 +27,8 @@ function execute(cmd) {
 execute(["ls", "-lha"]);
 execute(["ls", "--help"]);
 execute(["find", "/"]);
+
+app.use("/static", express.static(__dirname + "/static"));
 
 app.get('/', function (req, res, next) {
     res.writeHead(200, {
