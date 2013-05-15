@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Roat</title>
+    <style>
+    .exec-status {
+        text-transform: uppercase;
+    }
+    .done {
+        color: #6e6;
+    }
+    .failed {
+        color: #e66;
+    }
+    .running {
+        color: #666;
+    }
+    </style>
+</head>
+<body>
+    <h1>Subprocesses</h1>
+    <table>
+        <thead>
+            <tr><th>Process</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+            {{#subprocesses}}
+            <tr><td><a href="subprocess/{{id}}">{{title}}</a></td><td><span class="exec-status {{status_class}}">{{status}}</span></td></tr>
+            {{/subprocesses}}
+        </tbody>
+    </table>
+</body>
+</html>

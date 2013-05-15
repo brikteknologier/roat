@@ -16,9 +16,36 @@ require('winston-tagged-http-logger')(app, log.createSublogger("http"));
 
 var subprocesses = [];
 
-var ls = new Subprocess();
-ls.exec(["ls", "-lha"]);
-subprocesses.push(ls);
+function execute(cmd) {
+    var subprocess = new Subprocess();
+    subprocess.exec(cmd);
+    subprocesses.push(subprocess);
+}
+
+execute(["ls", "-lha"]);
+execute(["ls", "--help"]);
+execute(["find", "/"]);
+
+app.get('/', function (req, res, next) {
+    res.writeHead(200, {
+        "Content-Type": "text/html;charset=utf8"
+    });
+    var stream = mu.compileAndRender(
+        'index.mu.html', {
+            subprocesses: subprocesses.map(function (s, index) {
+                var statusClasses = ["running", "failed", "done"];
+                var statusId = 0;
+                if (s.exitCode != null) statusId = (s.exitCode === 0) ? 2 : 1;
+                return {
+                    id: index,
+                    title: s.cmd.join(' '),
+                    status_class: statusClasses[statusId],
+                    status: statusClasses[statusId]
+                };
+            }).reverse()
+        });
+    util.pump(stream, res);
+});
 
 app.get(/\/subprocess\/(\d+)$/, function (req, res, next) {
     var id = parseInt(req.params[0], 10);
