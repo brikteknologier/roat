@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{title}}</title>
+    <style>
+        .stderr {
+            background: #fee;
+        }
+    </style>
+</head>
+<body>
+    <dl>
+        <dt>Command line:</dt>
+        <dd>{{commandLine}}</dd>
+        <dt>Exit status code:</dt>
+        <dd>{{exitCode}}</dd>
+    </dl>
+    <h1>Output</h1>
+    <pre>{{#lines}}<span class="{{stream}}">{{line}}</span>
+{{/lines}}</pre>
+</body>
+</html>

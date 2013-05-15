@@ -1,0 +1,18 @@
+{
+  "name": "roat",
+  "version": "0.0.0",
+  "description": "Continuous integration server",
+  "main": "index.js",
+  "repository": "git@github.com:brikteknologier/roat.git",
+  "author": "Magnus Hoff <magnus.hoff@brik.no>",
+  "private": true,
+  "license": "Commercial",
+  "dependencies": {
+    "express": "~3.2.4",
+    "winston-tagged-http-logger": "~1.0.1",
+    "logginator": "~1.1.0",
+    "optimist": "~0.4.0",
+    "byline": "~2.0.3",
+    "mu2": "~0.5.17"
+  }
+}
