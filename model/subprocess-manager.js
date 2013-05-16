@@ -13,7 +13,7 @@ util.inherits(SubprocessManager, events.EventEmitter);
 SubprocessManager.prototype.execute = function (cmd, opts) {
     var subprocess = new Subprocess();
     subprocess.exec(cmd, opts);
-    var id = this.subprocesses.push(subprocess);
+    var id = this.subprocesses.push(subprocess) - 1;
 
     var processLogger = this.log.createSublogger(id);
     processLogger.info("Started subprocess " + JSON.stringify(cmd));
@@ -22,6 +22,8 @@ SubprocessManager.prototype.execute = function (cmd, opts) {
     });
 
     this.emit('newProcess', id);
+
+    return id;
 };
 
 SubprocessManager.prototype.get = function (id) {

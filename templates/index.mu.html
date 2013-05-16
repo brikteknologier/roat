@@ -3,8 +3,38 @@
 <head>
     <title>Roat</title>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <script>
+    document.documentElement.addEventListener('click', function (event) {
+        var element = event.target;
+        var activateUrl = element.getAttribute('data-activate-url');
+        if (activateUrl != null) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", activateUrl);
+            xhr.setRequestHeader("Content-Type", "application/vnd.brik.roat.trigger+json");
+            xhr.send("{}");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    var newLocation = xhr.getResponseHeader("Location");
+                    window.location.href = newLocation;
+                }
+            };
+            event.preventDefault();
+        }
+    });
+    </script>
 </head>
 <body>
+    <h1>Actions</h1>
+    <table>
+        <thead>
+            <tr><th>Title</th><th>Manual trigger</th></tr>
+        </thead>
+        <tbody>
+            {{#actions}}
+            <tr><td>{{title}}</td><td><button data-activate-url="action/{{id}}">Run</button></td></tr>
+            {{/actions}}
+        </tbody>
+    </table>
     <h1>Subprocesses</h1>
     <table>
         <thead>

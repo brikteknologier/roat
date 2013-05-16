@@ -1,7 +1,7 @@
 var util = require('util');
 var mu = require('mu2');
 
-module.exports = function (subprocessManager, res) {
+module.exports = function (actionManager, subprocessManager, res) {
     var subprocesses = subprocessManager.subprocesses;
 
     res.writeHead(200, {
@@ -9,6 +9,7 @@ module.exports = function (subprocessManager, res) {
     });
     var stream = mu.compileAndRender(
         'index.mu.html', {
+            actions: actionManager.actionList,
             subprocesses: subprocesses.map(function (s, index) {
                 var statusClasses = ["running", "failed", "done"];
                 var statusId = 0;

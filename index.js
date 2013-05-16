@@ -8,19 +8,23 @@ var logginator = require("logginator");
 mu.root = __dirname + "/templates";
 
 var SubprocessManager = require("./model/subprocess-manager");
+var Action = require("./model/action");
+var ActionManager = require("./model/action-manager");
 var views = {
     subprocess: require("./view/subprocess"),
-    subprocessManager: require("./view/subprocess-manager")
+    index: require("./view/index")
 };
 
 
 var log = logginator();
 
 
+var actionManager = new ActionManager();
+actionManager.push(new Action("ls-color", "List files", ["ls", "-lhaG"], { env: {CLICOLOR_FORCE:"true"} }));
+actionManager.push(new Action("ls-error", "List files, with error", ["ls", "--help"]));
+actionManager.push(new Action("find", "Find all files", ["find", "/"]));
+
 var subprocessManager = new SubprocessManager(log.createSublogger("subprocessManager"));
-subprocessManager.execute(["ls", "-lhaG"], { env: {CLICOLOR_FORCE:"true"} });
-subprocessManager.execute(["ls", "--help"]);
-subprocessManager.execute(["find", "/"]);
 
 
 var app = express();
@@ -29,7 +33,7 @@ require('winston-tagged-http-logger')(app, log.createSublogger("http"));
 app.use("/static", express.static(__dirname + "/static"));
 
 app.get('/', function (req, res, next) {
-    views.subprocessManager(subprocessManager, res);
+    views.index(actionManager, subprocessManager, res);
 });
 
 app.get(/\/subprocess\/(\d+)$/, function (req, res, next) {
@@ -42,6 +46,28 @@ app.get(/\/subprocess\/(\d+)$/, function (req, res, next) {
     }
 
     views.subprocess(subprocess, res);
+});
+
+app.post(/\/action\/([^\/]+)$/, function (req, res, next) {
+    var id = req.params[0];
+
+    log.info(id);
+
+    var action = actionManager.get(id);
+    if (!action) {
+       res.send(404);
+       return;
+    }
+
+    var contentType = req.headers["content-type"];
+    if (contentType === "application/vnd.brik.roat.trigger+json") {
+        var id = action.trigger(subprocessManager);
+        res.setHeader("Location", "/subprocess/" + id);
+        res.send(201, "Created\n");
+    } else {
+        res.setHeader("Accept", "application/vnd.brik.roat.trigger+json");
+        res.send(415, "415 Unsupported Media Type\n");
+    }
 });
 
 
