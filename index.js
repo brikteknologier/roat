@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+var fs = require('fs');
 var express = require('express');
 var mu = require("mu2");
 var optimist = require("optimist");
@@ -18,26 +19,7 @@ var views = {
 var log = logginator();
 
 
-var actionManager = new ActionManager({
-    "ls-color": {
-        "title": "List files",
-        "cmd": [ "ls", "-lhaG" ],
-        "opts": {
-            "env": {
-                "CLICOLOR_FORCE": "true"
-            }
-        }
-    },
-    "ls-error": {
-        "title": "List files, with error",
-        "cmd": [ "ls", "--help" ]
-    },
-    "find": {
-        "title": "Find all files",
-        "cmd": [ "find", "/" ]
-    }
-});
-
+var actionManager = new ActionManager(JSON.parse(fs.readFileSync("actions.json", "utf8")));
 var subprocessManager = new SubprocessManager(log.createSublogger("subprocessManager"));
 
 
@@ -64,8 +46,6 @@ app.get(/\/subprocess\/(\d+)$/, function (req, res, next) {
 
 app.post(/\/action\/([^\/]+)$/, function (req, res, next) {
     var id = req.params[0];
-
-    log.info(id);
 
     var action = actionManager.get(id);
     if (!action) {

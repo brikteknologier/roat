@@ -1,0 +1,19 @@
+{
+    "ls-color": {
+        "title": "List files",
+        "cmd": [ "ls", "-lhaG" ],
+        "opts": {
+            "env": {
+                "CLICOLOR_FORCE": "true"
+            }
+        }
+    },
+    "ls-error": {
+        "title": "List files, with error",
+        "cmd": [ "ls", "--help" ]
+    },
+    "find": {
+        "title": "Find all files",
+        "cmd": [ "find", "/" ]
+    }
+}
