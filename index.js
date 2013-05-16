@@ -8,7 +8,6 @@ var logginator = require("logginator");
 mu.root = __dirname + "/templates";
 
 var SubprocessManager = require("./model/subprocess-manager");
-var Action = require("./model/action");
 var ActionManager = require("./model/action-manager");
 var views = {
     subprocess: require("./view/subprocess"),
@@ -19,10 +18,25 @@ var views = {
 var log = logginator();
 
 
-var actionManager = new ActionManager();
-actionManager.push(new Action("ls-color", "List files", ["ls", "-lhaG"], { env: {CLICOLOR_FORCE:"true"} }));
-actionManager.push(new Action("ls-error", "List files, with error", ["ls", "--help"]));
-actionManager.push(new Action("find", "Find all files", ["find", "/"]));
+var actionManager = new ActionManager({
+    "ls-color": {
+        "title": "List files",
+        "cmd": [ "ls", "-lhaG" ],
+        "opts": {
+            "env": {
+                "CLICOLOR_FORCE": "true"
+            }
+        }
+    },
+    "ls-error": {
+        "title": "List files, with error",
+        "cmd": [ "ls", "--help" ]
+    },
+    "find": {
+        "title": "Find all files",
+        "cmd": [ "find", "/" ]
+    }
+});
 
 var subprocessManager = new SubprocessManager(log.createSublogger("subprocessManager"));
 
