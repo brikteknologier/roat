@@ -18,7 +18,7 @@ var log = logginator();
 
 
 var subprocessManager = new SubprocessManager(log.createSublogger("subprocessManager"));
-subprocessManager.execute(["ls", "-lha"]);
+subprocessManager.execute(["ls", "-lhaG"], { env: {CLICOLOR_FORCE:"true"} });
 subprocessManager.execute(["ls", "--help"]);
 subprocessManager.execute(["find", "/"]);
 
