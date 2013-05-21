@@ -4,15 +4,30 @@ var MemoryStream = require('memorystream');
 var GITHUB_WEBHOOK_CONTENT_TYPE = "application/json";
 
 
-function processWebHook(log, message) {
+function processWebHook(log, message, app, config) {
     if (!message || !message.repository) return false;
 
-    log.info("Received update message for repository: " + message.repository.url);
+    var repo = message.repository.url;
+    var actionId = config[repo];
+
+    if (!actionId) {
+        log.info("Received update message for repository: " + repo + ", no action configured");
+        return true;
+    }
+
+    log.info("Received update message for repository: " + repo + ", triggering action " + actionId);
+    var action = app.actionManager.get(actionId);
+    if (!action) {
+        log.warn("No action " + actionId + " configured");
+        return false;
+    }
+
+    action.trigger(app.subprocessManager);
 
     return true;
 }
 
-module.exports = function (log, app, expressApp) {
+module.exports = function (log, app, expressApp, config) {
     expressApp.post('/github', function (req, res, next) {
         var reqLog = log.createSublogger(
           req.socket.remoteAddress + ":" + req.socket.remotePort);
@@ -41,7 +56,7 @@ module.exports = function (log, app, expressApp) {
                 return;
             }
 
-            var ok = processWebHook(reqLog, githubMessage);
+            var ok = processWebHook(reqLog, githubMessage, app, config);
 
             if (ok) res.send(204);
             else res.send(500);

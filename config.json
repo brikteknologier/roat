@@ -1,0 +1,28 @@
+{
+    "http": {
+        "port": 9999,
+        "bind": "127.0.0.1"
+    },
+    "actions": {
+        "ls-color": {
+            "title": "List files",
+            "cmd": [ "ls", "-lhaG" ],
+            "opts": {
+                "env": {
+                    "CLICOLOR_FORCE": "true"
+                }
+            }
+        },
+        "ls-error": {
+            "title": "List files, with error",
+            "cmd": [ "ls", "--help" ]
+        },
+        "find": {
+            "title": "Find all files",
+            "cmd": [ "find", "/" ]
+        }
+    },
+    "github": {
+        "https://github.com/octokitty/testing": "ls-color"
+    }
+}

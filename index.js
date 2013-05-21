@@ -8,9 +8,7 @@ var core = require('./core');
 var subsystems = require('./subsystems');
 
 
-var config = {
-	actions: JSON.parse(fs.readFileSync("actions.json", "utf8"))
-};
+var config = JSON.parse(fs.readFileSync("config.json", "utf8"));
 
 var log = logginator(config.log);
 
@@ -21,7 +19,12 @@ require('winston-tagged-http-logger')(expressApp, log.createSublogger("http"));
 
 for (var subsystemName in subsystems) {
     if (!subsystems.hasOwnProperty(subsystemName)) continue;
-    subsystems[subsystemName](log.createSublogger(subsystemName), app, expressApp);
+    subsystems[subsystemName](
+        log.createSublogger(subsystemName),
+        app,
+        expressApp,
+        config[subsystemName]
+    );
 }
 
 config.http = config.http || {};
