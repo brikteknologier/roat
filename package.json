@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "Continuous integration server",
   "main": "index.js",
+  "scripts": {
+    "test": "node_modules/.bin/mocha -R spec"
+  },
   "repository": "git@github.com:brikteknologier/roat.git",
   "author": "Magnus Hoff <magnus.hoff@brik.no>",
   "private": true,
@@ -16,5 +19,9 @@
     "ansi-to-html": "~0.1.1",
     "mu2": "~0.5.17",
     "memorystream": "~0.2.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.9.0",
+    "request": "~2.21.0"
   }
 }
