@@ -8,7 +8,22 @@ var core = require('./core');
 var subsystems = require('./subsystems');
 
 
-var config = JSON.parse(fs.readFileSync("config.json", "utf8"));
+var argv = optimist.default({
+    config: "config.json"
+}).argv;
+
+try {
+    var config = JSON.parse(fs.readFileSync(argv.config, "utf8"));
+}
+catch (err) {
+    console.error("Error reading config file " + argv.config);
+    if (err instanceof SyntaxError) {
+        console.error("" + err);
+    } else if (err.errno === 34) {
+        console.error("File not found. You can specify the config file name with --config <filename>");
+    }
+    process.exit(1);
+}
 
 var log = logginator(config.log);
 
@@ -27,10 +42,7 @@ for (var subsystemName in subsystems) {
     );
 }
 
-config.http = config.http || {};
-
-var argv = optimist.argv;
-var port = argv.port || config.http.port || 0;
-var bind = argv.bind || config.http.bind || undefined;
-
+var httpConf = config.http || {};
+var port = argv.port || httpConf.port || 0;
+var bind = argv.bind || httpConf.bind || undefined;
 expressApp.listen(port, bind);
