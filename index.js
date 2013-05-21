@@ -4,10 +4,10 @@ var fs = require('fs');
 var express = require('express');
 var optimist = require("optimist");
 var logginator = require("logginator");
-var SubprocessManager = require("./model/subprocess-manager");
-var ActionManager = require("./model/action-manager");
-var github = require("./github");
-var webui = require("./webui");
+var SubprocessManager = require("./core/model/subprocess-manager");
+var ActionManager = require("./core/model/action-manager");
+var github = require("./subsystems/github");
+var webui = require("./subsystems/webui");
 
 var log = logginator();
 
