@@ -7,17 +7,17 @@ var views = {
     index: require("./view/index")
 };
 
-module.exports = function (log, actionManager, subprocessManager, expressApp) {
+module.exports = function (log, app, expressApp) {
     expressApp.use("/static", express.static(__dirname + "/static"));
 
     expressApp.get('/', function (req, res, next) {
-        views.index(actionManager, subprocessManager, res);
+        views.index(app.actionManager, app.subprocessManager, res);
     });
 
     expressApp.get(/\/subprocess\/(\d+)$/, function (req, res, next) {
         var id = parseInt(req.params[0], 10);
 
-        var subprocess = subprocessManager.get(id);
+        var subprocess = app.subprocessManager.get(id);
         if (!subprocess) {
            res.send(404);
            return;
@@ -29,7 +29,7 @@ module.exports = function (log, actionManager, subprocessManager, expressApp) {
     expressApp.post(/\/action\/([^\/]+)$/, function (req, res, next) {
         var id = req.params[0];
 
-        var action = actionManager.get(id);
+        var action = app.actionManager.get(id);
         if (!action) {
            res.send(404);
            return;
@@ -37,7 +37,7 @@ module.exports = function (log, actionManager, subprocessManager, expressApp) {
 
         var contentType = req.headers["content-type"];
         if (contentType === "application/vnd.brik.roat.trigger+json") {
-            var id = action.trigger(subprocessManager);
+            var id = action.trigger(app.subprocessManager);
             res.setHeader("Location", "/subprocess/" + id);
             res.send(201, "Created\n");
         } else {

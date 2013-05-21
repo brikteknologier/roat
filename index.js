@@ -2,31 +2,32 @@
 
 var fs = require('fs');
 var express = require('express');
-var optimist = require("optimist");
 var logginator = require("logginator");
-var SubprocessManager = require("./core/model/subprocess-manager");
-var ActionManager = require("./core/model/action-manager");
+var optimist = require("optimist");
+var core = require('./core');
 var subsystems = require('./subsystems');
 
-var log = logginator();
 
-var actionManager = new ActionManager(JSON.parse(fs.readFileSync("actions.json", "utf8")));
-var subprocessManager = new SubprocessManager(log.createSublogger("subprocessManager"));
+var config = {
+	actions: JSON.parse(fs.readFileSync("actions.json", "utf8"))
+};
 
-var app = express();
-require('winston-tagged-http-logger')(app, log.createSublogger("http"));
+var log = logginator(config.log);
 
+var app = core(log.createSublogger("core"), config.actions);
+
+var expressApp = express();
+require('winston-tagged-http-logger')(expressApp, log.createSublogger("http"));
 
 for (var subsystemName in subsystems) {
-	if (!subsystems.hasOwnProperty(subsystemName)) continue;
-
-	subsystems[subsystemName](log.createSublogger(subsystemName), actionManager, subprocessManager, app);
+    if (!subsystems.hasOwnProperty(subsystemName)) continue;
+    subsystems[subsystemName](log.createSublogger(subsystemName), app, expressApp);
 }
 
+config.http = config.http || {};
 
-var argv = optimist.default({
-        "port": 0,
-        "bind": "127.0.0.1"
-    }).argv;
+var argv = optimist.argv;
+var port = argv.port || config.http.port || 0;
+var bind = argv.bind || config.http.bind || undefined;
 
-app.listen(argv.port, argv.bind);
+expressApp.listen(port, bind);
