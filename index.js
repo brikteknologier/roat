@@ -6,6 +6,7 @@ var optimist = require("optimist");
 var logginator = require("logginator");
 var SubprocessManager = require("./model/subprocess-manager");
 var ActionManager = require("./model/action-manager");
+var github = require("./github");
 var webui = require("./webui");
 
 var log = logginator();
@@ -17,6 +18,7 @@ var app = express();
 require('winston-tagged-http-logger')(app, log.createSublogger("http"));
 
 
+github(log.createSublogger("github"), actionManager, subprocessManager, app);
 webui(actionManager, subprocessManager, app);
 
 
