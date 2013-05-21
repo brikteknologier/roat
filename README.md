@@ -58,7 +58,7 @@ github
 ------
 Roat listens for [github WebHook messages][1] on its `/github` URL.
 
-1: https://help.github.com/articles/post-receive-hooks
+[1]: https://help.github.com/articles/post-receive-hooks
 
 The github subsystem triggers actions based on which repository was updated:
 
