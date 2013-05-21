@@ -7,7 +7,7 @@ var views = {
     index: require("./view/index")
 };
 
-module.exports = function (actionManager, subprocessManager, expressApp) {
+module.exports = function (log, actionManager, subprocessManager, expressApp) {
     expressApp.use("/static", express.static(__dirname + "/static"));
 
     expressApp.get('/', function (req, res, next) {
