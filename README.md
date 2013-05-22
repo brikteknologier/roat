@@ -64,6 +64,12 @@ The github subsystem triggers actions based on which repository was updated:
 
     "github": {
         <repository-URL>: <action-id>,
+        <repository-URL>: <action-id>
+    }
+
+Example:
+
+    "github": {
         "https://github.com/octokitty/testing": "ls-color"
     }
 
