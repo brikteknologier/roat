@@ -22,5 +22,5 @@ module.exports = function (actionManager, subprocessManager, res) {
                 };
             }).reverse()
         });
-    util.pump(stream, res);
+    stream.pipe(res);
 };
