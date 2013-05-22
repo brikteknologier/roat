@@ -17,7 +17,7 @@
     "optimist": "~0.4.0",
     "byline": "~2.0.3",
     "ansi-to-html": "~0.1.1",
-    "mu2": "~0.5.17",
+    "mu2": "git+ssh://git@github.com:deestan/Mu.git#master",
     "formidable": "~1.0.14"
   },
   "devDependencies": {
