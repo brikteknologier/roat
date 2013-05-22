@@ -14,8 +14,14 @@
             xhr.send("{}");
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
-                    var newLocation = xhr.getResponseHeader("Location");
-                    window.location.href = newLocation;
+                    if (xhr.status >= 200 && xhr.status < 400) {
+                        var newLocation = xhr.getResponseHeader("Location");
+                        window.location.href = newLocation;
+                    } else {
+                        var err = "[" + xhr.status + "] " +
+                            (xhr.statusText || "Server appears to have stopped.");
+                        prompt(err + "\n\n" + "How does this make you feel?");
+                    }
                 }
             };
             event.preventDefault();
