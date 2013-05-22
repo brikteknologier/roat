@@ -2,6 +2,7 @@ var assert = require('assert');
 var express = require('express');
 var request = require('request');
 var logginator = require('logginator');
+var querystring = require('querystring');
 var core = require('../core');
 var github = require('../subsystems/github');
 
@@ -173,9 +174,9 @@ describe("github", function () {
             url: "http://127.0.0.1:" + port + "/github",
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: JSON.stringify(examplePostData)
+            body: querystring.stringify({ payload: JSON.stringify(examplePostData) })
         }, function (err, res, body) {
             assert.equal(err, null);
             assert.equal(Math.floor(res.statusCode / 100), 2);

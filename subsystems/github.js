@@ -1,7 +1,7 @@
 var express = require('express');
-var MemoryStream = require('memorystream');
+var formidable = require('formidable');
 
-var GITHUB_WEBHOOK_CONTENT_TYPE = "application/json";
+var GITHUB_WEBHOOK_CONTENT_TYPE = "application/x-www-form-urlencoded";
 
 
 function processWebHook(log, message, app, config) {
@@ -41,14 +41,13 @@ module.exports = function (log, app, expressApp, config) {
             return;
         }
 
-        var bufferStream = new MemoryStream(null, {readable: false});
-        req.pipe(bufferStream);
-        bufferStream.on('end', function () {
-            var bufferString = bufferStream.toString();
+        var form = new (formidable.IncomingForm)();
+
+        form.parse(req, function (err, fields, files) {
             var githubMessage;
 
             try {
-                githubMessage = JSON.parse(bufferString);
+                githubMessage = JSON.parse(fields.payload);
             }
             catch (error) {
                 reqLog.error("Malformed request: " + error);
