@@ -1,6 +1,6 @@
 {
   "name": "roat",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Continuous integration server",
   "main": "index.js",
   "scripts": {
@@ -8,8 +8,11 @@
   },
   "repository": "git@github.com:brikteknologier/roat.git",
   "author": "Magnus Hoff <magnus.hoff@brik.no>",
-  "private": true,
-  "license": "Commercial",
+  "license": "MIT",
+  "bin": {
+    "roat": "./index.js"
+  },
+  "preferGlobal": true,
   "dependencies": {
     "express": "~3.2.4",
     "winston-tagged-http-logger": "~1.0.1",

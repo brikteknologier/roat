@@ -94,3 +94,8 @@ pushes to github. The POST from github must reach the `/github` endpoint of
 Roat to allow this to work.
 
 Happy automation!
+
+----
+
+Development of Roat is lovingly sponsored by 
+[BRIK Tekonologier AS](http://www.github.com/brikteknologier) in Bergen, Norway.
