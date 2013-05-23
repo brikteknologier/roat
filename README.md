@@ -36,6 +36,7 @@ The scripts the Roat server runs are specified as actions in the config:
 
     "actions": {
         <action-id>: <action-spec>,
+        <action-id>: <action-spec>,
         ...
     }
 
@@ -64,7 +65,8 @@ The github subsystem triggers actions based on which repository was updated:
 
     "github": {
         <repository-URL>: <action-id>,
-        <repository-URL>: <action-id>
+        <repository-URL>: <action-id>,
+        ...
     }
 
 Example:
