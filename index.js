@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
+var path = require('path');
 var express = require('express');
 var logginator = require("logginator");
 var optimist = require("optimist");
@@ -25,7 +26,11 @@ catch (err) {
     process.exit(1);
 }
 
+var package = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json')));
+
 var log = logginator(config.log);
+
+log.info("Version " + package.version);
 
 var app = core(log.createSublogger("core"), config.actions);
 
