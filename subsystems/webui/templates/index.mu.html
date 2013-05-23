@@ -14,13 +14,24 @@
             xhr.send("{}");
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status >= 200 && xhr.status < 400) {
+                    if (Math.floor(xhr.status / 100) == 2) {
                         var newLocation = xhr.getResponseHeader("Location");
+                        if (!newLocation) {
+                            alert("You have discovered a bug.\n\n" +
+                                "The trigger action returned a " + xhr.status + " status, " +
+                                "but the answer contained no Location.");
+                            return;
+                        }
                         window.location.href = newLocation;
                     } else {
-                        var err = "[" + xhr.status + "] " +
-                            (xhr.statusText || "Server appears to have stopped.");
-                        prompt(err + "\n\n" + "How does this make you feel?");
+                        if (xhr.status === 0) {
+                            alert("Unable to reach the server.\n\nPlease try again later.");
+                        } else {
+                            console.error("[" + xhr.status + "]", xhr.statusText);
+                            console.error("xhr.getAllResponseHeaders():", xhr.getAllResponseHeaders());
+                            console.error("xhr.response:", xhr.response);
+                            alert("An error occurred during triggering.\n\nPlease try again later.");
+                        }
                     }
                 }
             };
