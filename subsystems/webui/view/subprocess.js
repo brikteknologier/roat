@@ -31,5 +31,5 @@ module.exports = function (subprocess, res) {
                 };
             })
         });
-    util.pump(stream, res);
+    stream.pipe(res);
 };
