@@ -30,7 +30,7 @@ var package = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json')));
 
 var log = logginator(config.log);
 
-log.info("Version " + package.version);
+log.info("Version " + package.version + " (on node " + process.version + ")");
 
 var app = core(log.createSublogger("core"), config.actions);
 
