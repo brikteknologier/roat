@@ -31,5 +31,9 @@ module.exports = function (subprocess, res) {
                 };
             })
         });
-    stream.pipe(res);
+
+    // We apparently trigger a bug in the core stream library
+    // if we simply use stream.pipe(res);
+    stream.on('data', function (d) { res.write(d); });
+    stream.on('end', function (d) { res.end(d); });
 };
