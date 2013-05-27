@@ -21,10 +21,12 @@ module.exports = function (subprocess, res) {
 
     var stream = mu.compileAndRender(
         'subprocess.mu.html', {
-            title: subprocess.cmd[0],
+            title: subprocess.title,
             commandLine: subprocess.cmd.join(' '),
-            exitCode: (subprocess.exitCode == null ? "still running" : subprocess.exitCode),
+            running: subprocess.exitCode == null,
+            exitCode: subprocess.exitCode,
             exitCodeClass: (subprocess.exitCode == null ? "" : (subprocess.exitCode === 0 ? "good" : "bad")),
+            pid: subprocess.pid,
             lines: subprocess.output.map(function (line) {
                 return {
                     class: line.stream,

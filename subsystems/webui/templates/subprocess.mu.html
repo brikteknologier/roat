@@ -12,10 +12,18 @@
 </head>
 <body>
     <dl class="statusbar"><!--
+        --><dt>action</dt><!--
+        --><dd>{{title}}</dd><!--
+        {{^running}}
         --><dt>exit status</dt><!--
         --><dd class="{{exitCodeClass}}">{{exitCode}}</dd><!--
+        {{/running}}
         --><dt>cmd</dt><!--
         --><dd>{{commandLine}}</dd><!--
+        {{#running}}
+        --><dt>pid</dt><!--
+        --><dd>{{pid}}</dd><!--
+        {{/running}}
     --></dl>
     <pre id="output" class="process-output">{{#lines}}<span class="{{class}}">{{{html}}}</span>
 {{/lines}}</pre>

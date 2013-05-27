@@ -61,12 +61,27 @@ dl.statusbar>dd:last-child {
 	border-right: 1px solid #ccc;
 }
 
-dl.statusbar>dd.good {
-	background: hsl(90, 50%, 90%);
+dl.statusbar>dd.btn-group {
+	padding: 0;
 }
 
-dl.statusbar>dd.bad {
-	background: hsl(0, 50%, 90%);
+dl.statusbar button {
+	font-family: inherit;
+	font-size: inherit;
+	display: inline-block;
+	padding: 4px 10px 4px 10px;
+	border: none;
+	margin: 0;
+	background: hsl(0, 0%, 90%);
+	cursor: pointer;
+}
+
+dl.statusbar button:hover {
+	background: #ccc;
+}
+
+.btn-group button + button {
+	border-left: 1px solid #ccc;
 }
 
 h1 {
