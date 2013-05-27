@@ -22,5 +22,8 @@ module.exports = function (actionManager, subprocessManager, res) {
                 };
             }).reverse()
         });
-    stream.pipe(res);
+
+    // Workaround for apparently broken stream.pipe:
+    stream.on('data', function (buf) { res.write(buf); });
+    stream.on('end', function (buf) { res.end(buf); });
 };
