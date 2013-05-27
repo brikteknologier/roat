@@ -24,6 +24,7 @@ module.exports = function (subprocess, res) {
             title: subprocess.cmd[0],
             commandLine: subprocess.cmd.join(' '),
             exitCode: (subprocess.exitCode == null ? "still running" : subprocess.exitCode),
+            exitCodeClass: (subprocess.exitCode == null ? "" : (subprocess.exitCode === 0 ? "good" : "bad")),
             lines: subprocess.output.map(function (line) {
                 return {
                     class: line.stream,

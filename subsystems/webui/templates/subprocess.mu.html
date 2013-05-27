@@ -11,12 +11,12 @@
     </script>
 </head>
 <body>
-    <dl>
-        <dt>Command line:</dt>
-        <dd>{{commandLine}}</dd>
-        <dt>Exit status code:</dt>
-        <dd>{{exitCode}}</dd>
-    </dl>
+    <dl class="statusbar"><!--
+        --><dt>exit status</dt><!--
+        --><dd class="{{exitCodeClass}}">{{exitCode}}</dd><!--
+        --><dt>cmd</dt><!--
+        --><dd>{{commandLine}}</dd><!--
+    --></dl>
     <pre id="output" class="process-output">{{#lines}}<span class="{{class}}">{{{html}}}</span>
 {{/lines}}</pre>
 </body>
