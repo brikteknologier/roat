@@ -83,8 +83,9 @@ When you have configured roat, you can run
 
 It will output something like:
 
-    16:59:09.081 2013-05-21 Tuesday
-    16:59:09.098 [roat, http] Listening on 127.0.0.1:9999
+    12:30:34.566 2013-05-27 Monday
+    12:30:34.570 [roat] Version 1.0.2 (on node v0.10.7)
+    12:30:34.583 [roat, http] Listening on 127.0.0.1:9999
 
 Visit the specified address in a web browser (http://127.0.0.1:9999) to
 inspect the current system status.
