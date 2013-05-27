@@ -3,6 +3,12 @@
 <head>
     <title>{{title}}</title>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <script>
+    window.onload = function (event) {
+        var output = document.getElementById("output");
+        output.scrollTop = output.scrollHeight;
+    };
+    </script>
 </head>
 <body>
     <dl>
@@ -11,8 +17,7 @@
         <dt>Exit status code:</dt>
         <dd>{{exitCode}}</dd>
     </dl>
-    <h1>Output</h1>
-    <pre>{{#lines}}<span class="{{class}}">{{{html}}}</span>
+    <pre id="output" class="process-output">{{#lines}}<span class="{{class}}">{{{html}}}</span>
 {{/lines}}</pre>
 </body>
 </html>
