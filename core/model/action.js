@@ -6,7 +6,7 @@ function Action(id, title, cmd, opts) {
 }
 
 Action.prototype.trigger = function (subprocessManager) {
-	return subprocessManager.execute(this.cmd, this.opts);
+	return subprocessManager.execute(this.title, this.cmd, this.opts);
 };
 
 module.exports = Action;

@@ -3,9 +3,10 @@ var util = require('util');
 var childProcess = require("child_process");
 var byline = require("byline");
 
-function Subprocess() {
+function Subprocess(title) {
     events.EventEmitter.call(this);
 
+    this.title = title;
     this.output = [];
 }
 util.inherits(Subprocess, events.EventEmitter);
@@ -22,6 +23,7 @@ Subprocess.prototype.exec = function (cmd, opts) {
     for (var key in (opts.env || {})) env[key] = opts.env[key];
 
     this.childProcess = childProcess.spawn(cmd[0], cmd.slice(1), { cwd: opts.cwd, env: env });
+    this.pid = this.childProcess.pid;
 
     var self = this;
 

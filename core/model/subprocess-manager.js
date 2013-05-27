@@ -10,8 +10,8 @@ function SubprocessManager(log) {
 }
 util.inherits(SubprocessManager, events.EventEmitter);
 
-SubprocessManager.prototype.execute = function (cmd, opts) {
-    var subprocess = new Subprocess();
+SubprocessManager.prototype.execute = function (title, cmd, opts) {
+    var subprocess = new Subprocess(title);
     subprocess.exec(cmd, opts);
     var id = this.subprocesses.push(subprocess) - 1;
 
