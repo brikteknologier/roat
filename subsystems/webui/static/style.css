@@ -68,3 +68,29 @@ dl.statusbar>dd.good {
 dl.statusbar>dd.bad {
 	background: hsl(0, 50%, 90%);
 }
+
+h1 {
+	font-size: 24px;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+thead {
+	background: hsl(0, 0%, 95%);
+}
+
+th {
+	font-weight: bold;
+	color: hsl(0, 0%, 50%);
+
+	text-align: left;
+	padding: 2px 10px;
+	border: 1px solid #ccc;
+}
+
+td {
+	border: 1px solid #ccc;
+	padding: 4px 10px;
+}
