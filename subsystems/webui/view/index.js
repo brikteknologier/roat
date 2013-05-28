@@ -16,7 +16,7 @@ module.exports = function (actionManager, subprocessManager, res) {
                 if (s.exitCode != null) statusId = (s.exitCode === 0) ? 2 : 1;
                 return {
                     id: index,
-                    title: s.cmd.join(' '),
+                    title: s.title,
                     status_class: statusClasses[statusId],
                     status: statusClasses[statusId]
                 };
