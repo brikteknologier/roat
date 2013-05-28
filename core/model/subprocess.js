@@ -34,6 +34,7 @@ Subprocess.prototype.exec = function (cmd, opts) {
             self.emit('line', lineSpec);
         });
     });
+    this.childProcess.stdin.end();
 
     this.childProcess.on('close', function (code, signal) {
         self.exitCode = signal || code;
