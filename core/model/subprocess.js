@@ -35,10 +35,16 @@ Subprocess.prototype.exec = function (cmd, opts) {
         });
     });
 
-    this.childProcess.on('close', function (code) {
-        self.exitCode = code;
-        self.emit('close', code);
+    this.childProcess.on('close', function (code, signal) {
+        self.exitCode = signal || code;
+        self.emit('close', code, signal);
     });
+};
+
+Subprocess.prototype.signal = function (signal) {
+    if (this.exitCode) throw new Error("Can not send signal to finished process");
+    this.childProcess.kill(signal);
+    this.output.push({ stream: "process-control", line: "Sent the subprocess " + signal });
 };
 
 module.exports = Subprocess;

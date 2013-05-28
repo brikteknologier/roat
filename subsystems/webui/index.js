@@ -1,3 +1,4 @@
+var MemoryStream = require('memorystream');
 var express = require('express');
 var mu = require("mu2");
 mu.root = __dirname + "/templates";
@@ -24,6 +25,46 @@ module.exports = function (log, app, expressApp) {
         }
 
         views.subprocess(subprocess, res);
+    });
+
+    expressApp.post(/\/subprocess\/(\d+)$/, function (req, res, next) {
+        var id = parseInt(req.params[0], 10);
+
+        var subprocess = app.subprocessManager.get(id);
+        if (!subprocess) {
+           res.send(404);
+           return;
+        }
+
+        var contentType = req.headers["content-type"];
+        if (contentType === "application/vnd.brik.roat.signal+json") {
+            var bodyBuf = new MemoryStream(null, { readable: false });
+            req.pipe(bodyBuf);
+            bodyBuf.on('end', function () {
+                var signal;
+                try {
+                    var body = bodyBuf.toString();
+                    signal = JSON.parse(body);
+                }
+                catch (err) {
+                    log.error("Bad request from client " + err);
+                    res.send(400, "Bad Request\n\nRequest body must be a valid UTF-8 encoded JSON string\n");
+                    return;
+                }
+                log.info("Sending signal " + signal + " to subprocess " + id);
+                try {
+                    subprocess.signal(signal);
+                    res.send(200);
+                }
+                catch (err) {
+                    log.error("Error while sending signal to subprocess: " + err);
+                    res.send(500);
+                }
+            });
+        } else {
+            res.setHeader("Accept", "application/vnd.brik.roat.signal+json");
+            res.send(415, "415 Unsupported Media Type\n");
+        }
     });
 
     expressApp.post(/\/action\/([^\/]+)$/, function (req, res, next) {

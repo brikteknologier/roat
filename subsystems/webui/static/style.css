@@ -21,6 +21,17 @@ html {
     background: #fee;
 }
 
+.process-control {
+	font-family: 'Lucida Grande', sans-serif;
+	color: white;
+	background: cornflowerblue;
+	border: 1px solid #666;
+	border-radius: 3px;
+	margin: 3px;
+	padding: 5px 20px;
+	display: inline-block;
+}
+
 .process-output {
 	padding: 2px;
 	margin: 0;

@@ -23,8 +23,53 @@
         {{#running}}
         --><dt>pid</dt><!--
         --><dd>{{pid}}</dd><!--
+        --><dt>send signal</dt><!--
+        --><dd id="signal-buttons-group" class="btn-group"><!--
+            --><button data-signal="SIGSTOP">stop</button><!--
+            --><button data-signal="SIGCONT">cont</button><!--
+            --><button data-signal="SIGABRT">abrt</button><!--
+            --><button data-signal="SIGTERM">term</button><!--
+            --><button data-signal="SIGKILL">kill</button><!--
+        --></dd><!--
         {{/running}}
     --></dl>
+
+    <script>
+    // Stuffing this here, since the page may take forever
+    // to load, depending on the amount of output
+    (function () {
+        var signalButtonsGroup = document.getElementById("signal-buttons-group");
+        signalButtonsGroup.addEventListener('click', function (event) {
+            var element = event.target;
+            var signal = element.getAttribute('data-signal');
+            if (signal != null) {
+                event.preventDefault();
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "");
+                xhr.setRequestHeader("Content-Type", "application/vnd.brik.roat.signal+json");
+                xhr.send(JSON.stringify(signal));
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (Math.floor(xhr.status / 100) == 2) {
+                            window.location.reload(false);
+                        } else {
+                            if (xhr.status === 0) {
+                                alert("Unable to reach the server.\n\nPlease try again later.");
+                            } else {
+                                console.error("[" + xhr.status + "]", xhr.statusText);
+                                console.error("xhr.getAllResponseHeaders():", xhr.getAllResponseHeaders());
+                                console.error("xhr.response:", xhr.response);
+                                alert("An error occurred while sending the signal.\n\nPlease try again later.");
+                            }
+                        }
+                    }
+                };
+            }
+        });
+    }());
+    </script>
+
     <pre id="output" class="process-output">{{#lines}}<span class="{{class}}">{{{html}}}</span>
 {{/lines}}</pre>
 </body>

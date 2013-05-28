@@ -21,7 +21,8 @@
     "byline": "~2.0.3",
     "ansi-to-html": "~0.1.1",
     "mu2": "~0.5.19",
-    "formidable": "~1.0.14"
+    "formidable": "~1.0.14",
+    "memorystream": "~0.2.0"
   },
   "devDependencies": {
     "mocha": "~1.9.0",
