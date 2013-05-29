@@ -34,6 +34,21 @@ log.info("Version " + package.version + " (on node " + process.version + ")");
 
 var app = core(log.createSublogger("core"), config.actions);
 
+function terminateSignalHandler(signal) {
+    log.warn("Got signal " + signal + ". Terminating.");
+    app.subprocessManager.killAllRunning(function () {
+        process.exit(0);
+    });
+}
+
+process.on('SIGINT', function () {
+    terminateSignalHandler('SIGINT');
+});
+
+process.on('SIGTERM', function () {
+    terminateSignalHandler('SIGTERM');
+});
+
 var expressApp = express();
 require('winston-tagged-http-logger')(expressApp, log.createSublogger("http"));
 

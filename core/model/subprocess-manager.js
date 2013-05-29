@@ -28,6 +28,35 @@ SubprocessManager.prototype.execute = function (title, cmd, opts) {
 
 SubprocessManager.prototype.get = function (id) {
     return this.subprocesses[id];
-}
+};
+
+SubprocessManager.prototype.killAllRunning = function (callback) {
+    var self = this;
+    var liveProcesses = 0;
+
+    function maybeDoneKilling() {
+        if (liveProcesses === 0) callback();
+    }
+
+    this.subprocesses.forEach(function (subprocess) {
+        if (subprocess.exitCode != null) return;
+
+        self.log.info("Sending \"" + subprocess.title + "\" (" + subprocess.pid + ") SIGKILL");
+        try {
+            subprocess.signal("SIGKILL");
+            liveProcesses += 1;
+            subprocess.on('close', function () {
+                self.log.info('"' + subprocess.title + "\" (" + subprocess.pid + ") terminated");
+                liveProcesses -= 1;
+                maybeDoneKilling();
+            });
+        }
+        catch (err) {
+            self.log.error(JSON.stringify(err));
+        }
+    });
+
+    maybeDoneKilling();
+};
 
 module.exports = SubprocessManager;

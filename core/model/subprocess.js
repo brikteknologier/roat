@@ -43,7 +43,7 @@ Subprocess.prototype.exec = function (cmd, opts) {
 };
 
 Subprocess.prototype.signal = function (signal) {
-    if (this.exitCode) throw new Error("Can not send signal to finished process");
+    if (this.exitCode != null) throw new Error("Can not send signal to finished process");
     process.kill(-this.childProcess.pid, signal);
     this.output.push({ stream: "process-control", line: "Sent the process group " + signal });
 };
