@@ -27,7 +27,9 @@ function processWebHook(log, message, app, config) {
     return true;
 }
 
-module.exports = function (log, app, expressApp, config) {
+module.exports = function (log, app, expressApp, configArgument) {
+    var config = configArgument || {};
+
     expressApp.post('/github', function (req, res, next) {
         var reqLog = log.createSublogger(
           req.socket.remoteAddress + ":" + req.socket.remotePort);

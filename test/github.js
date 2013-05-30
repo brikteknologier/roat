@@ -184,4 +184,32 @@ describe("github", function () {
             done();
         });
     });
+
+    it("handles missing config", function (done) {
+        var log = logginator({});
+        var app = core(log, {});
+
+        var expressApp = express();
+        github(log, app, expressApp);
+        expressApp.on('listening', function () {
+            var address = expressApp.address();
+        });
+
+        // Would bind to 127.0.0.1, but that makes address() return null
+        var httpServer = expressApp.listen(0);
+        var port = httpServer.address().port;
+
+        request({
+            url: "http://127.0.0.1:" + port + "/github",
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: querystring.stringify({ payload: JSON.stringify(examplePostData) })
+        }, function (err, res, body) {
+            assert.equal(err, null);
+            assert.equal(Math.floor(res.statusCode / 100), 2);
+            done();
+        });
+    });
 });
