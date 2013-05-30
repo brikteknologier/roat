@@ -99,4 +99,4 @@ Happy automation!
 ----
 
 Development of Roat is lovingly sponsored by 
-[BRIK Tekonologier AS](http://www.github.com/brikteknologier) in Bergen, Norway.
+[BRIK Videobase AS](http://www.github.com/brikteknologier) in Bergen, Norway.
