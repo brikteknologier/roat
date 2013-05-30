@@ -49,6 +49,17 @@ process.on('SIGTERM', function () {
     terminateSignalHandler('SIGTERM');
 });
 
+process.on('uncaughtException', function(err) {
+    log.error("Uncaught exception: " + err);
+    if (err.stack) log.error(err.stack);
+
+    log.warn("Attempting to kill running subprocesses after uncaught exception");
+    app.subprocessManager.killAllRunning(function () {});
+    log.error("Terminating because of uncaught exception");
+
+    process.exit(1);
+});
+
 var expressApp = express();
 require('winston-tagged-http-logger')(expressApp, log.createSublogger("http"));
 
