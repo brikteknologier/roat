@@ -55,6 +55,22 @@ list in `cmd` and optionally necessary environmental variables in `opts.env`:
         }
     }
 
+Normally, an action will execute in a new subprocess every time it is
+triggered. Alternative running modes exist and are specified in the "mode"
+field, for example:
+
+    {
+        ...
+        "mode": "daemon"
+    }
+
+Available modes are:
+
+ * `immediate`: The default. Start a new subprocess immediately, every time
+    the action is triggered.
+ * `daemon`: When the action is triggered, Roat will kill currently running
+    instances before starting a new subprocess.
+
 github
 ------
 Roat listens for [github WebHook messages][1] on its `/github` URL.
