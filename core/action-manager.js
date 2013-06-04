@@ -1,5 +1,5 @@
 var DaemonAction = require('./daemon-action');
-var ImmediateAction = require('./action');
+var ImmediateAction = require('./immediate-action');
 
 function ActionManager(spec) {
     this.actionList = [];
