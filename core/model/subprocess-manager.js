@@ -38,18 +38,18 @@ SubprocessManager.prototype.killAllRunning = function (callback) {
         if (liveProcesses === 0) callback();
     }
 
-    this.subprocesses.forEach(function (subprocess) {
-        if (subprocess.exitCode != null) return;
+    this.subprocesses.forEach(function (subprocess, id) {
+        if (!subprocess.isRunning()) return;
 
-        self.log.info("Sending \"" + subprocess.title + "\" (" + subprocess.pid + ") SIGKILL");
         try {
-            subprocess.signal("SIGKILL");
+            subprocess.kill(
+                self.log.createSublogger(id),
+                function () {
+                    liveProcesses -= 1;
+                    maybeDoneKilling();
+                }
+            );
             liveProcesses += 1;
-            subprocess.on('close', function () {
-                self.log.info('"' + subprocess.title + "\" (" + subprocess.pid + ") terminated");
-                liveProcesses -= 1;
-                maybeDoneKilling();
-            });
         }
         catch (err) {
             self.log.error(JSON.stringify(err));

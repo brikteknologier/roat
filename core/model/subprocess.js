@@ -11,6 +11,10 @@ function Subprocess(title) {
 }
 util.inherits(Subprocess, events.EventEmitter);
 
+Subprocess.prototype.isRunning = function () {
+    return this.exitCode === undefined;
+};
+
 Subprocess.prototype.exec = function (cmd, opts) {
     if (this.childProcess) throw { message: "Subprocess already running" };
 
@@ -46,6 +50,26 @@ Subprocess.prototype.signal = function (signal) {
     if (this.exitCode != null) throw new Error("Can not send signal to finished process");
     process.kill(-this.childProcess.pid, signal);
     this.output.push({ stream: "process-control", line: "Sent the process group " + signal });
+};
+
+Subprocess.prototype.kill = function (log, callback) {
+    var self = this;
+
+    if (!this.isRunning()) {
+        callback();
+        return;
+    }
+
+    this.childProcess.on('close', callback);
+
+    log.info("Sending subprocess SIGTERM");
+    this.signal("SIGTERM");
+    setTimeout(function () {
+        if (self.isRunning()) {
+            log.info("Sending subprocess SIGKILL");
+            self.signal("SIGKILL");
+        }
+    }, 5000);
 };
 
 module.exports = Subprocess;
