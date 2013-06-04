@@ -1,5 +1,7 @@
-var DaemonAction = require('./daemon-action');
-var ImmediateAction = require('./immediate-action');
+var modes = {
+    "immediate": require('./immediate-action'),
+    "daemon": require('./daemon-action')
+};
 
 function ActionManager(spec) {
     this.actionList = [];
@@ -9,10 +11,12 @@ function ActionManager(spec) {
         if (!spec.hasOwnProperty(id)) continue;
         var actionSpec = spec[id];
 
-        var constructor = ImmediateAction;
-        if (actionSpec.mode === 'daemon') {
-            constructor = DaemonAction;
+        var mode = actionSpec.mode || "immediate";
+        if (!modes.hasOwnProperty(mode)) {
+            throw new Error("Invalid mode specified for action " + id);
         }
+
+        var constructor = modes[mode];
         this.push(new constructor(id, actionSpec));
     }
 }
