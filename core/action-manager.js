@@ -1,6 +1,7 @@
 var modes = {
     "immediate": require('./immediate-action'),
-    "daemon": require('./daemon-action')
+    "daemon": require('./daemon-action'),
+    "unique": require('./unique-action')
 };
 
 function ActionManager(spec) {
