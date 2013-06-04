@@ -76,11 +76,19 @@ module.exports = function (log, app, expressApp) {
            return;
         }
 
+        var socketLog = log.createSublogger(
+            req.socket.remoteAddress + ":" + req.socket.remotePort);
+        var actionLog = socketLog.createSublogger(id);
+
         var contentType = req.headers["content-type"];
         if (contentType === "application/vnd.brik.roat.trigger+json") {
-            var id = action.trigger(app.subprocessManager);
-            res.setHeader("Location", "/subprocess/" + id);
-            res.send(201, "Created\n");
+            var id = action.trigger(actionLog, app.subprocessManager);
+            if (id != null) {
+                res.setHeader("Location", "/subprocess/" + id);
+                res.send(201, "Created\n");
+            } else {
+                res.send(204);
+            }
         } else {
             res.setHeader("Accept", "application/vnd.brik.roat.trigger+json");
             res.send(415, "415 Unsupported Media Type\n");

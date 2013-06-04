@@ -1,4 +1,5 @@
-var Action = require('./action');
+var DaemonAction = require('./daemon-action');
+var ImmediateAction = require('./action');
 
 function ActionManager(spec) {
 	this.actionList = [];
@@ -6,7 +7,13 @@ function ActionManager(spec) {
 
 	for (var id in spec) {
 		if (!spec.hasOwnProperty(id)) continue;
-		this.push(new Action(id, spec[id].title, spec[id].cmd, spec[id].opts));
+		var actionSpec = spec[id];
+
+		var constructor = ImmediateAction;
+		if (actionSpec.mode === 'daemon') {
+			constructor = DaemonAction;
+		}
+		this.push(new constructor(id, actionSpec));
 	}
 }
 
@@ -16,6 +23,7 @@ ActionManager.prototype.push = function (action) {
 };
 
 ActionManager.prototype.get = function (id) {
+	if (!this.actionDict.hasOwnProperty(id)) return undefined;
 	return this.actionDict[id];
 };
 
