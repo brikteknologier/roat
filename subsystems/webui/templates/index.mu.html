@@ -52,7 +52,20 @@
         </thead>
         <tbody>
             {{#actions}}
-            <tr><td>{{title}}</td><td><a data-activate-url="action/{{id}}" href="#">Run</button></td></tr>
+            <tr>
+                <td><!-- #currentSubprocessId test will unfortunately be false for subprocess ID 0
+                    {{#currentSubprocessId}}
+                    --><a href="subprocess/{{currentSubprocessId}}"><!--
+                    {{/currentSubprocessId}}-->{{title}}<!--{{#currentSubprocessId}}
+                    --></a><!--
+                    {{/currentSubprocessId}}
+                    -->
+                    {{#pendingExecution}}
+                    <span class="minor">pending</span>
+                    {{/pendingExecution}}
+                </td>
+                <td><a data-activate-url="action/{{id}}" href="#">Run</button></td>
+            </tr>
             {{/actions}}
         </tbody>
     </table>
