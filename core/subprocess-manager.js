@@ -52,7 +52,7 @@ SubprocessManager.prototype.killAllRunning = function (callback) {
             liveProcesses += 1;
         }
         catch (err) {
-            self.log.error(JSON.stringify(err));
+            self.log.error("Error attempting to kill subprocess " + id + ": " + JSON.stringify(err));
         }
     });
 
