@@ -1,4 +1,5 @@
 var subsystemNames = [
+	'autostart',
 	'github',
 	'webui'
 ];
