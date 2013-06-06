@@ -111,6 +111,9 @@ For example:
         "ls-color"
     ]
 
+In order to be kind to the host machine, it starts the configured services one
+at a time, separated by one second in time.
+
 Running
 =======
 When you have configured roat, you can run
