@@ -95,6 +95,22 @@ Example:
         "https://github.com/octokitty/testing": "ls-color"
     }
 
+autostart
+---------
+Roat will trigger the configured actions automatically on start:
+
+    "autostart": [
+        <action-id>,
+        <action-id>,
+        ...
+    ]
+
+For example:
+
+    "autostart": [
+        "ls-color"
+    ]
+
 Running
 =======
 When you have configured roat, you can run
