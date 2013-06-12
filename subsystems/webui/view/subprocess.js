@@ -13,7 +13,7 @@ function htmlFromText(text) {
 }
 
 module.exports = function (subprocess, res) {
-    var convert = new Convert();
+    var convert = new Convert({ fg: "#444" });
 
     res.writeHead(200, {
         "Content-Type": "text/html;charset=utf8"
