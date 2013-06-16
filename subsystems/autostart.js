@@ -2,6 +2,8 @@ module.exports = function (log, app, expressApp, configArgument) {
     var delay = 1000;
     var scheduled = [];
 
+    configArgument = configArgument || [];
+
     configArgument.forEach(function (id) {
         var action = app.actionManager.get(id);
         if (!action) {
