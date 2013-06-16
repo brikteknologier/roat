@@ -1,6 +1,6 @@
 var assert = require('assert');
 var logginator = require('logginator');
-var DaemonAction = require('../core/exclusive-action');
+var ExclusiveAction = require('../core/exclusive-action');
 
 var id = "id";
 var spec = {
@@ -11,7 +11,7 @@ var spec = {
 describe("exclusive-action", function () {
     it("starts first time", function (done) {
         var log = logginator({});
-        var action = new DaemonAction(id, spec);
+        var action = new ExclusiveAction(id, spec);
 
         var wasExecuted = false;
         action.trigger(log, {
@@ -27,7 +27,7 @@ describe("exclusive-action", function () {
         var subprocessId = Math.random();
 
         var log = logginator({});
-        var action = new DaemonAction(id, spec);
+        var action = new ExclusiveAction(id, spec);
 
         var wasKilled = false;
         function subprocessKiller() {
@@ -55,7 +55,7 @@ describe("exclusive-action", function () {
         var subprocessId = Math.random();
 
         var log = logginator({});
-        var action = new DaemonAction(id, spec);
+        var action = new ExclusiveAction(id, spec);
 
         var wasRestarted = false;
         var wasKilled = false;
