@@ -61,19 +61,17 @@ field, for example:
 
     {
         ...
-        "mode": "daemon"
+        "mode": "exclusive"
     }
 
 Available modes are:
 
  * `immediate`: The default. Start a new subprocess immediately, every time
     the action is triggered.
- * `daemon`: When the action is triggered, Roat will kill currently running
+ * `exclusive`: When the action is triggered, Roat will kill currently running
     instances before starting a new subprocess.
- * `unique`: Run at most one instance of this action at a time. If the action
-    is triggered while a previous instance is still running, it will wait
-    until the previous instance is complete before starting a new subprocess.
-    At most one such pending execution will be scheduled at a time.
+ * `queue`: Run at most one instance of this action at a time, but wait for
+    any currently running process to finish instead of killing it.
 
 github
 ------

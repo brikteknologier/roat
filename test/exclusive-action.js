@@ -1,6 +1,6 @@
 var assert = require('assert');
 var logginator = require('logginator');
-var DaemonAction = require('../core/model/daemon-action');
+var DaemonAction = require('../core/exclusive-action');
 
 var id = "id";
 var spec = {
@@ -8,7 +8,7 @@ var spec = {
     "cmd": [ "O", "M", "G" ]
 };
 
-describe("daemon-action", function () {
+describe("exclusive-action", function () {
     it("starts first time", function (done) {
         var log = logginator({});
         var action = new DaemonAction(id, spec);
@@ -23,7 +23,7 @@ describe("daemon-action", function () {
         done();
     });
 
-    it("kills running daemon on trigger", function (done) {
+    it("kills running process on trigger", function (done) {
         var subprocessId = Math.random();
 
         var log = logginator({});
