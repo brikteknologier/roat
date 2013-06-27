@@ -24,6 +24,7 @@ Subprocess.prototype.exec = function (cmd, opts) {
     var env = {};
     for (var key in (process.env || {})) env[key] = process.env[key];
     env['TERM'] = "xterm-color";
+    env['ROAT_PID'] = process.pid;
     for (var key in (opts.env || {})) env[key] = opts.env[key];
 
     this.childProcess = childProcess.spawn(cmd[0], cmd.slice(1), { cwd: opts.cwd, env: env, detached: true });
