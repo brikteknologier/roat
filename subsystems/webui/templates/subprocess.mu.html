@@ -34,6 +34,7 @@
         {{/running}}
     --></dl>
 
+    {{#running}}
     <script>
     // Stuffing this here, since the page may take forever
     // to load, depending on the amount of output
@@ -69,6 +70,7 @@
         });
     }());
     </script>
+    {{/running}}
 
     <pre id="output" class="process-output">{{#lines}}<span class="{{class}}">{{{html}}}</span>
 {{/lines}}</pre>

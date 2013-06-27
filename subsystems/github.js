@@ -22,7 +22,7 @@ function processWebHook(log, message, app, config) {
         return false;
     }
 
-    action.trigger(app.subprocessManager);
+    action.trigger(log.createSublogger(actionId), app.subprocessManager);
 
     return true;
 }

@@ -15,14 +15,18 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (Math.floor(xhr.status / 100) == 2) {
-                        var newLocation = xhr.getResponseHeader("Location");
-                        if (!newLocation) {
-                            alert("You have discovered a bug.\n\n" +
-                                "The trigger action returned a " + xhr.status + " status, " +
-                                "but the answer contained no Location.");
-                            return;
+                        if (xhr.status === 201) {
+                            var newLocation = xhr.getResponseHeader("Location");
+                            if (!newLocation) {
+                                alert("You have discovered a bug.\n\n" +
+                                    "The trigger action returned a " + xhr.status + " status, " +
+                                    "but the answer contained no Location.");
+                                return;
+                            }
+                            window.location.href = newLocation;
+                        } else {
+                            window.location.reload(false);
                         }
-                        window.location.href = newLocation;
                     } else {
                         if (xhr.status === 0) {
                             alert("Unable to reach the server.\n\nPlease try again later.");
