@@ -75,9 +75,9 @@ Available modes are:
 
 github
 ------
-Roat listens for [github WebHook messages][1] on its `/github` URL.
+Roat listens for [github WebHook messages][githubWebhook] on its `/github` URL.
 
-[1]: https://help.github.com/articles/post-receive-hooks
+[githubWebhook]: https://help.github.com/articles/post-receive-hooks
 
 The github subsystem triggers actions based on which repository was updated:
 
@@ -87,11 +87,38 @@ The github subsystem triggers actions based on which repository was updated:
         ...
     }
 
-Example:
+For example:
 
     "github": {
         "https://github.com/octokitty/testing": "ls-color"
     }
+
+Note that you are required to use the full URL, with the `https` scheme and no
+trailing slash.
+
+bitbucket
+---------
+Roat listens for [bitbucket's POST Service messages][bitbucketPOST] on its
+'/bitbucket' URL.
+
+[bitbucketPOST]: https://confluence.atlassian.com/display/BITBUCKET/POST+Service+Management
+
+The bitbucket subsystem triggers actions based on which repository was updated:
+
+    "bitbucket": {
+        <repository-URL>: <action-id>,
+        <repository-URL>: <action-id>,
+        ...
+    }
+
+For example:
+
+    "bitbucket": {
+        "/jespern/bitbucket/": "ls-color"
+    }
+
+Note that you are required to use only the `path`-part of the URL, including a
+trailing slash. The format is `/<username>/<repository-name>/`.
 
 autostart
 ---------
