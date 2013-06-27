@@ -8,7 +8,6 @@ function ActionManager(spec) {
     this.actionDict = {};
 
     for (var id in spec) {
-        if (!spec.hasOwnProperty(id)) continue;
         var actionSpec = spec[id];
 
         var mode = actionSpec.mode || "immediate";
