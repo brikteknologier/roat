@@ -1,5 +1,6 @@
 var express = require('express');
 var formidable = require('formidable');
+var utils = require('./utils');
 
 var GITHUB_WEBHOOK_CONTENT_TYPE = "application/x-www-form-urlencoded";
 
@@ -8,21 +9,18 @@ function processWebHook(log, message, app, config) {
     if (!message || !message.repository) return false;
 
     var repo = message.repository.url;
-    var actionId = config[repo];
+    var actionConfig = config[repo];
 
-    if (!actionId) {
+    if (!actionConfig) {
         log.info("Received update message for repository: " + repo + ", no action configured");
         return true;
     }
 
-    log.info("Received update message for repository: " + repo + ", triggering action " + actionId);
-    var action = app.actionManager.get(actionId);
-    if (!action) {
-        log.warn("No action " + actionId + " configured");
-        return false;
-    }
-
-    action.trigger(log.createSublogger(actionId), app.subprocessManager);
+    log.info("Received update message for repository: " + repo);
+    utils.triggerSingleOrArrayOfActions(
+        log, actionConfig, 1000,
+        app.actionManager, app.subprocessManager
+    );
 
     return true;
 }

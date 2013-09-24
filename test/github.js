@@ -147,16 +147,18 @@ var examplePostData = {
 
 describe("github", function () {
     it("handles correct input", function (done) {
-        var actionStub = {
-            id: "test-action",
-            hasBeenInvoked: false,
-            trigger: function () { actionStub.hasBeenInvoked = true; }
-        };
+        var outstandingCallbacks = 2;
+        function decrementOutstanding() {
+            if (!--outstandingCallbacks) done();
+        }
 
         var log = logginator({});
         var app = core(log, {});
 
-        app.actionManager.push(actionStub);
+        app.actionManager.push({
+            id: "test-action",
+            trigger: decrementOutstanding
+        });
 
         var expressApp = express();
         github(log, app, expressApp, {
@@ -180,8 +182,55 @@ describe("github", function () {
         }, function (err, res, body) {
             assert.equal(err, null);
             assert.equal(Math.floor(res.statusCode / 100), 2);
-            assert(actionStub.hasBeenInvoked);
-            done();
+            decrementOutstanding();
+        });
+    });
+
+    it("can schedule multiple", function (done) {
+        // This test unfortunately requires one second to run, due to a hardcoded
+        // timer value inside the github subsystem module. The solution is to make
+        // this interval configurable, or to employ some kind of virtual time.
+
+        var outstandingCallbacks = 3;
+        function decrementOutstanding() {
+            if (!--outstandingCallbacks) done();
+        }
+
+        var log = logginator({});
+        var app = core(log, {});
+
+        app.actionManager.push({
+            id: "test-action-1",
+            trigger: decrementOutstanding
+        });
+        app.actionManager.push({
+            id: "test-action-2",
+            trigger: decrementOutstanding
+        });
+
+        var expressApp = express();
+        github(log, app, expressApp, {
+            "https://github.com/octokitty/testing": [ "test-action-1", "test-action-2" ]
+        });
+        expressApp.on('listening', function () {
+            var address = expressApp.address();
+        });
+
+        // Would bind to 127.0.0.1, but that makes address() return null
+        var httpServer = expressApp.listen(0);
+        var port = httpServer.address().port;
+
+        request({
+            url: "http://127.0.0.1:" + port + "/github",
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: querystring.stringify({ payload: JSON.stringify(examplePostData) })
+        }, function (err, res, body) {
+            assert.equal(err, null);
+            assert.equal(Math.floor(res.statusCode / 100), 2);
+            decrementOutstanding();
         });
     });
 
