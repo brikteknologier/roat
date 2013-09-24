@@ -2,7 +2,8 @@ function UniqueAction(id, spec) {
     this.id = id;
     this.title = spec.title;
     this.cmd = spec.cmd;
-    this.opts = spec.opts;
+    this.cwd = spec.cwd;
+    this.env = spec.env;
 
     this.pendingExecution = false;
     this.currentSubprocessId = null;
@@ -13,7 +14,7 @@ UniqueAction.prototype.trigger = function (log, subprocessManager) {
 
     function startNew() {
         self.pendingExecution = false;
-        self.currentSubprocessId = subprocessManager.execute(self.title, self.cmd, self.opts);
+        self.currentSubprocessId = subprocessManager.execute(self.title, self.cmd, self.cwd, self.env);
         log.info(self.currentSubprocessId);
 
         var currentSubprocess = subprocessManager.get(self.currentSubprocessId);

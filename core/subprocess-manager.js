@@ -10,9 +10,9 @@ function SubprocessManager(log) {
 }
 util.inherits(SubprocessManager, events.EventEmitter);
 
-SubprocessManager.prototype.execute = function (title, cmd, opts) {
+SubprocessManager.prototype.execute = function (title, cmd, cwd, env) {
     var subprocess = new Subprocess(title);
-    subprocess.exec(cmd, opts);
+    subprocess.exec(cmd, cwd, env);
     var id = this.subprocesses.push(subprocess) - 1;
 
     var processLogger = this.log.createSublogger(id);

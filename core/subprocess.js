@@ -15,19 +15,18 @@ Subprocess.prototype.isRunning = function () {
     return this.exitCode === undefined;
 };
 
-Subprocess.prototype.exec = function (cmd, opts) {
+Subprocess.prototype.exec = function (cmd, cwd, envArg) {
     if (this.childProcess) throw { message: "Subprocess already running" };
 
     this.cmd = cmd;
 
-    opts || (opts = {});
     var env = {};
     for (var key in (process.env || {})) env[key] = process.env[key];
     env['TERM'] = "xterm-color";
     env['ROAT_PID'] = process.pid;
-    for (var key in (opts.env || {})) env[key] = opts.env[key];
+    for (var key in (envArg || {})) env[key] = envArg[key];
 
-    this.childProcess = childProcess.spawn(cmd[0], cmd.slice(1), { cwd: opts.cwd, env: env, detached: true });
+    this.childProcess = childProcess.spawn(cmd[0], cmd.slice(1), { cwd: cwd, env: env, detached: true });
     this.pid = this.childProcess.pid;
 
     var self = this;

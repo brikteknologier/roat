@@ -43,15 +43,15 @@ The scripts the Roat server runs are specified as actions in the config:
 The `<action-id>` is used to refer to a specific action by other subsystems.
 
 `<action-spec>` has a human readable `title`, a command line specified as a
-list in `cmd` and optionally necessary environmental variables in `opts.env`:
+list in `cmd`, optionally the desired working directory as `cwd` and
+optionally necessary environmental variables in `env`:
 
     "ls-color": {
         "title": "List files",
         "cmd": [ "ls", "-lhaG" ],
-        "opts": {
-            "env": {
-                "CLICOLOR_FORCE": "true"
-            }
+        "cwd": "/root",
+        "env": {
+            "CLICOLOR_FORCE": "true"
         }
     }
 

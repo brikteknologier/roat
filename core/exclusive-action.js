@@ -2,7 +2,8 @@ function DaemonAction(id, spec) {
     this.id = id;
     this.title = spec.title;
     this.cmd = spec.cmd;
-    this.opts = spec.opts;
+    this.cwd = spec.cwd;
+    this.env = spec.env;
     this.currentSubprocessId = null;
 }
 
@@ -10,7 +11,7 @@ DaemonAction.prototype.trigger = function (log, subprocessManager) {
     var self = this;
 
     function startNew() {
-        self.currentSubprocessId = subprocessManager.execute(self.title, self.cmd, self.opts);
+        self.currentSubprocessId = subprocessManager.execute(self.title, self.cmd, self.cwd, self.env);
         return self.currentSubprocessId;
     }
 

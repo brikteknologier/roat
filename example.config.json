@@ -7,10 +7,8 @@
         "ls-color": {
             "title": "List files",
             "cmd": [ "ls", "-lhaG" ],
-            "opts": {
-                "env": {
-                    "CLICOLOR_FORCE": "true"
-                }
+            "env": {
+                "CLICOLOR_FORCE": "true"
             }
         },
         "ls-error": {
