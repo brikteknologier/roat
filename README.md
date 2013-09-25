@@ -82,15 +82,16 @@ Roat listens for [github WebHook messages][githubWebhook] on its `/github` URL.
 The github subsystem triggers actions based on which repository was updated:
 
     "github": {
-        <repository-URL>: <action-id>,
-        <repository-URL>: <action-id>,
+        <repository-URL>: <action-ids>,
+        <repository-URL>: <action-ids>,
         ...
     }
 
 For example:
 
     "github": {
-        "https://github.com/octokitty/testing": "ls-color"
+        "https://github.com/octokitty/testing": "ls-color",
+        "https://github.com/octokitty/schmesting": [ "ls-color", "ls" ]
     }
 
 Note that you are required to use the full URL, with the `https` scheme and no
@@ -106,15 +107,16 @@ Roat listens for [bitbucket's POST Service messages][bitbucketPOST] on its
 The bitbucket subsystem triggers actions based on which repository was updated:
 
     "bitbucket": {
-        <repository-URL>: <action-id>,
-        <repository-URL>: <action-id>,
+        <repository-URL>: <action-ids>,
+        <repository-URL>: <action-ids>,
         ...
     }
 
 For example:
 
     "bitbucket": {
-        "/jespern/bitbucket/": "ls-color"
+        "/jespern/bitbucket/": "ls-color",
+        "/jespern/git-7/": [ "ls-color", "ls" ]
     }
 
 Note that you are required to use only the `path`-part of the URL, including a
