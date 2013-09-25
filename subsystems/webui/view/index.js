@@ -12,7 +12,7 @@ module.exports = function (actionManager, subprocessManager, res) {
     });
 
     finished.sort(function (a, b) {
-        return b.timeStopped < a.timeStopped;
+        return subprocesses[b].timeStopped - subprocesses[a].timeStopped;
     });
     finished = finished.slice(0, 10);
 
