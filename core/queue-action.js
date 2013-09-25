@@ -1,4 +1,4 @@
-function UniqueAction(id, spec) {
+function QueueAction(id, spec) {
     this.id = id;
     this.title = spec.title;
     this.cmd = spec.cmd;
@@ -9,11 +9,11 @@ function UniqueAction(id, spec) {
     this.currentSubprocessId = null;
 }
 
-UniqueAction.prototype.hasSubprocess = function () {
+QueueAction.prototype.hasSubprocess = function () {
     return this.currentSubprocessId !== null;
 }
 
-UniqueAction.prototype.trigger = function (log, subprocessManager) {
+QueueAction.prototype.trigger = function (log, subprocessManager) {
     var self = this;
 
     function startNew() {
@@ -41,4 +41,4 @@ UniqueAction.prototype.trigger = function (log, subprocessManager) {
     }
 };
 
-module.exports = UniqueAction;
+module.exports = QueueAction;

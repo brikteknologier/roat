@@ -1,4 +1,4 @@
-function DaemonAction(id, spec) {
+function ExclusiveAction(id, spec) {
     this.id = id;
     this.title = spec.title;
     this.cmd = spec.cmd;
@@ -7,11 +7,11 @@ function DaemonAction(id, spec) {
     this.currentSubprocessId = null;
 }
 
-DaemonAction.prototype.hasSubprocess = function () {
+ExclusiveAction.prototype.hasSubprocess = function () {
     return this.currentSubprocessId !== null;
 }
 
-DaemonAction.prototype.trigger = function (log, subprocessManager) {
+ExclusiveAction.prototype.trigger = function (log, subprocessManager) {
     var self = this;
 
     function startNew() {
@@ -30,4 +30,4 @@ DaemonAction.prototype.trigger = function (log, subprocessManager) {
     }
 };
 
-module.exports = DaemonAction;
+module.exports = ExclusiveAction;
