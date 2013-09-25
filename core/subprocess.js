@@ -19,6 +19,7 @@ Subprocess.prototype.exec = function (cmd, cwd, envArg) {
     if (this.childProcess) throw { message: "Subprocess already running" };
 
     this.cmd = cmd;
+    this.timeStarted = new Date();
 
     var env = {};
     for (var key in (process.env || {})) env[key] = process.env[key];
@@ -42,6 +43,7 @@ Subprocess.prototype.exec = function (cmd, cwd, envArg) {
 
     this.childProcess.on('close', function (code, signal) {
         self.exitCode = signal || code;
+        self.timeStopped = new Date();
         self.emit('close', code, signal);
     });
 };

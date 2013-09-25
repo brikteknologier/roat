@@ -69,16 +69,44 @@
             {{/actions}}
         </tbody>
     </table>
-    <h1>Subprocesses</h1>
+    <h1>Currently running subprocesses</h1>
+    {{#running.length}}
     <table>
         <thead>
-            <tr><th>Action</th><th>Status</th></tr>
+            <tr><th>Running since</th><th>Action</th></tr>
         </thead>
         <tbody>
-            {{#subprocesses}}
-            <tr><td><a href="subprocess/{{id}}">{{title}}</a></td><td><span class="exec-status {{status_class}}">{{status}}</span></td></tr>
-            {{/subprocesses}}
+            {{#running}}
+            <tr>
+                <td title="{{sincePrecise}}">{{since}}</td>
+                <td><a href="subprocess/{{id}}">{{title}}</a></td>
+            </tr>
+            {{/running}}
         </tbody>
     </table>
+    {{/running.length}}
+    {{^running}}
+    <p>No currently running subprocesses</p>
+    {{/running}}
+    <h1>Recently terminated subprocesses</h1>
+    {{#finished.length}}
+    <table>
+        <thead>
+            <tr><th>Finished</th><th>Action</th><th>Termination status</th></tr>
+        </thead>
+        <tbody>
+            {{#finished}}
+            <tr>
+                <td title="{{finishedPrecise}}">{{finished}}</td>
+                <td><a href="subprocess/{{id}}">{{title}}</a></td>
+                <td><span class="exec-status {{status_class}}">{{status}}</span></td>
+            </tr>
+            {{/finished}}
+        </tbody>
+    </table>
+    {{/finished.length}}
+    {{^finished}}
+    <p>No recently terminated subprocesses</p>
+    {{/finished}}
 </body>
 </html>

@@ -1,8 +1,20 @@
 var util = require('util');
 var mu = require('mu2');
+var vagueTime = require('vague-time');
 
 module.exports = function (actionManager, subprocessManager, res) {
     var subprocesses = subprocessManager.subprocesses;
+    var now = new Date();
+
+    var running = [], finished = [];
+    subprocesses.forEach(function (s, index) {
+        (s.exitCode == null ? running : finished).push(index);
+    });
+
+    finished.sort(function (a, b) {
+        return b.timeStopped < a.timeStopped;
+    });
+    finished = finished.slice(0, 10);
 
     res.writeHead(200, {
         "Content-Type": "text/html;charset=utf8"
@@ -10,17 +22,28 @@ module.exports = function (actionManager, subprocessManager, res) {
     var stream = mu.compileAndRender(
         'index.mu.html', {
             actions: actionManager.actionList,
-            subprocesses: subprocesses.map(function (s, index) {
-                var statusClasses = ["running", "failed", "done"];
-                var statusId = 0;
-                if (s.exitCode != null) statusId = (s.exitCode === 0) ? 2 : 1;
+            running: running.map(function (subprocessId) {
+                var s = subprocesses[subprocessId];
                 return {
-                    id: index,
+                    id: subprocessId,
+                    title: s.title,
+                    sincePrecise: s.timeStarted,
+                    since: vagueTime.get({ from: now, to: s.timeStarted })
+                };
+            }),
+            finished: finished.map(function (subprocessId) {
+                var s = subprocesses[subprocessId];
+                var statusClasses = ["failed", "normal"];
+                var statusId = statusId = (s.exitCode === 0) ? 1 : 0;
+                return {
+                    id: subprocessId,
                     title: s.title,
                     status_class: statusClasses[statusId],
-                    status: statusClasses[statusId]
+                    status: statusClasses[statusId],
+                    finishedPrecise: s.timeStopped.toISOString(),
+                    finished: vagueTime.get({ from: now, to: s.timeStopped })
                 };
-            }).reverse()
+            })
         });
 
     // Workaround for apparently broken stream.pipe:

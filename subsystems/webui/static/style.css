@@ -1,20 +1,16 @@
 html {
-	font-family: 'Lucida Grande', sans-serif;
-	color: #444;
-	padding: 10px;
+    font-family: 'Lucida Grande', sans-serif;
+    color: #444;
+    padding: 10px;
 }
 
 .exec-status {
-    text-transform: uppercase;
+    text-transform: lowercase;
 }
-.done {
-    color: #6e6;
+.normal {
 }
 .failed {
     color: #e66;
-}
-.running {
-    color: #666;
 }
 
 .stderr {
@@ -22,105 +18,105 @@ html {
 }
 
 .process-control {
-	font-family: 'Lucida Grande', sans-serif;
-	color: white;
-	background: cornflowerblue;
-	border: 1px solid #666;
-	border-radius: 3px;
-	margin: 3px;
-	padding: 5px 20px;
-	display: inline-block;
+    font-family: 'Lucida Grande', sans-serif;
+    color: white;
+    background: cornflowerblue;
+    border: 1px solid #666;
+    border-radius: 3px;
+    margin: 3px;
+    padding: 5px 20px;
+    display: inline-block;
 }
 
 .process-output {
-	padding: 2px;
-	margin: 0;
-	margin-top: 10px;
-	border: 1px solid #ccc;
-	height: 600px;
-	overflow: auto;
+    padding: 2px;
+    margin: 0;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    height: 600px;
+    overflow: auto;
 }
 
 dl.statusbar {
-	font-size: 14px;
-	margin: 0;
-	display: block;
-	border-bottom: none;
+    font-size: 14px;
+    margin: 0;
+    display: block;
+    border-bottom: none;
 }
 
 dl.statusbar>dt {
-	padding: 5px 10px 5px 10px;
-	margin: 0;
-	display: inline-block;
-	color: white;
-	background: rgb(0, 136, 204);
+    padding: 5px 10px 5px 10px;
+    margin: 0;
+    display: inline-block;
+    color: white;
+    background: rgb(0, 136, 204);
 }
 
 dl.statusbar>dd {
-	padding: 4px 10px 4px 10px;
-	margin: 0;
-	display: inline-block;
-	border-top: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-	background: hsl(0, 0%, 90%);
+    padding: 4px 10px 4px 10px;
+    margin: 0;
+    display: inline-block;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    background: hsl(0, 0%, 90%);
 
-	border-right: 1px solid #ccc;
-	margin-right: 10px;
+    border-right: 1px solid #ccc;
+    margin-right: 10px;
 }
 
 dl.statusbar>dd:last-child {
-	border-right: 1px solid #ccc;
+    border-right: 1px solid #ccc;
 }
 
 dl.statusbar>dd.btn-group {
-	padding: 0;
+    padding: 0;
 }
 
 dl.statusbar button {
-	font-family: inherit;
-	font-size: inherit;
-	display: inline-block;
-	padding: 4px 10px 4px 10px;
-	border: none;
-	margin: 0;
-	background: hsl(0, 0%, 90%);
-	cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    display: inline-block;
+    padding: 4px 10px 4px 10px;
+    border: none;
+    margin: 0;
+    background: hsl(0, 0%, 90%);
+    cursor: pointer;
 }
 
 dl.statusbar button:hover {
-	background: #ccc;
+    background: #ccc;
 }
 
 .btn-group button + button {
-	border-left: 1px solid #ccc;
+    border-left: 1px solid #ccc;
 }
 
 h1 {
-	font-size: 24px;
+    font-size: 24px;
 }
 
 table {
-	border-collapse: collapse;
+    border-collapse: collapse;
 }
 
 thead {
-	background: hsl(0, 0%, 95%);
+    background: hsl(0, 0%, 95%);
 }
 
 th {
-	font-weight: bold;
-	color: hsl(0, 0%, 50%);
+    font-weight: bold;
+    color: hsl(0, 0%, 50%);
 
-	text-align: left;
-	padding: 2px 10px;
-	border: 1px solid #ccc;
+    text-align: left;
+    padding: 2px 10px;
+    border: 1px solid #ccc;
 }
 
 td {
-	border: 1px solid #ccc;
-	padding: 4px 10px;
+    border: 1px solid #ccc;
+    padding: 4px 10px;
 }
 
 .minor {
-	color: #9d9;
+    color: #9d9;
 }

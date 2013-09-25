@@ -22,7 +22,8 @@
     "ansi-to-html": "~0.1.1",
     "mu2": "~0.5.19",
     "formidable": "~1.0.14",
-    "memorystream": "~0.2.0"
+    "memorystream": "~0.2.0",
+    "vague-time": "~0.5.5"
   },
   "devDependencies": {
     "mocha": "~1.9.0",
