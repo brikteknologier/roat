@@ -7,6 +7,10 @@ function DaemonAction(id, spec) {
     this.currentSubprocessId = null;
 }
 
+DaemonAction.prototype.hasSubprocess = function () {
+    return this.currentSubprocessId !== null;
+}
+
 DaemonAction.prototype.trigger = function (log, subprocessManager) {
     var self = this;
 

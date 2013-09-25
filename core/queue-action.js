@@ -9,6 +9,10 @@ function UniqueAction(id, spec) {
     this.currentSubprocessId = null;
 }
 
+UniqueAction.prototype.hasSubprocess = function () {
+    return this.currentSubprocessId !== null;
+}
+
 UniqueAction.prototype.trigger = function (log, subprocessManager) {
     var self = this;
 

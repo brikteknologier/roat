@@ -54,11 +54,11 @@
             {{#actions}}
             <tr>
                 <td><!-- #currentSubprocessId test will unfortunately be false for subprocess ID 0
-                    {{#currentSubprocessId}}
+                    {{#hasSubprocess}}
                     --><a href="subprocess/{{currentSubprocessId}}"><!--
-                    {{/currentSubprocessId}}-->{{title}}<!--{{#currentSubprocessId}}
+                    {{/hasSubprocess}}-->{{title}}<!--{{#hasSubprocess}}
                     --></a><!--
-                    {{/currentSubprocessId}}
+                    {{/hasSubprocess}}
                     -->
                     {{#pendingExecution}}
                     <span class="minor">pending</span>

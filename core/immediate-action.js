@@ -6,6 +6,10 @@ function ImmediateAction(id, spec) {
     this.env = spec.env;
 }
 
+ImmediateAction.prototype.hasSubprocess = function () {
+    return false;
+}
+
 ImmediateAction.prototype.trigger = function (log, subprocessManager) {
     return subprocessManager.execute(this.title, this.cmd, this.cwd, this.env);
 };
