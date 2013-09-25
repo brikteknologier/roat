@@ -1,6 +1,6 @@
 {
   "name": "roat",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Continuous integration server",
   "main": "index.js",
   "scripts": {
