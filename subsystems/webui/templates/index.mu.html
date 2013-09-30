@@ -43,6 +43,8 @@
         }
     });
     </script>
+    <script src="static/vagueTime.js"></script>
+    <script src="static/vagueTimeUpdater.js"></script>
 </head>
 <body>
     <h1>Actions</h1>
@@ -78,7 +80,7 @@
         <tbody>
             {{#running}}
             <tr>
-                <td title="{{sincePrecise}}">{{since}}</td>
+                <td title="{{sincePrecise}}" data-since="{{sincePrecise}}" class="vagueTime">{{since}}</td>
                 <td><a href="subprocess/{{id}}">{{title}}</a></td>
             </tr>
             {{/running}}
@@ -97,7 +99,7 @@
         <tbody>
             {{#finished}}
             <tr>
-                <td title="{{finishedPrecise}}">{{finished}}</td>
+                <td title="{{finishedPrecise}}" data-since="{{finishedPrecise}}" class="vagueTime">{{finished}}</td>
                 <td><a href="subprocess/{{id}}">{{title}}</a></td>
                 <td><span class="exec-status {{status_class}}">{{status}}</span></td>
             </tr>
