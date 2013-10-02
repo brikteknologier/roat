@@ -141,6 +141,33 @@ For example:
 In order to be kind to the host machine, it starts the configured services one
 at a time, separated by one second in time.
 
+log
+---
+Roat will direct log output to the transports specified under this key:
+
+    "log": [
+        <transport>,
+        <transport>,
+        ...
+    ]
+
+For example:
+
+    "log": [
+        {
+            "transport": "console"
+        }, {
+            "transport": "syslog"
+        }
+    ]
+
+Roat uses [logginator][logginator] for logging and log target configuration.
+For further details about this config, please consult the
+[logginator][logginator] documentation.
+
+[logginator]: https://github.com/brikteknologier/logginator
+
+
 Running
 =======
 When you have configured roat, you can run
@@ -150,7 +177,7 @@ When you have configured roat, you can run
 It will output something like:
 
     12:30:34.566 2013-05-27 Monday
-    12:30:34.570 [roat] Version 1.0.2 (on node v0.10.7)
+    12:30:34.570 [roat] Version 1.1.3 (on node v0.10.7)
     12:30:34.583 [roat, http] Listening on 127.0.0.1:9999
 
 Visit the specified address in a web browser (http://127.0.0.1:9999) to
