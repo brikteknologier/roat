@@ -37,7 +37,7 @@ module.exports = function (log, app, expressApp) {
         }
 
         var contentType = req.headers["content-type"];
-        if (contentType === "application/vnd.brik.roat.signal+json") {
+        if (contentType.match(/^application\/vnd\.brik\.roat\.signal\+json(;.*)?$/)) {
             var bodyBuf = new MemoryStream(null, { readable: false });
             req.pipe(bodyBuf);
             bodyBuf.on('end', function () {
@@ -81,7 +81,7 @@ module.exports = function (log, app, expressApp) {
         var actionLog = socketLog.createSublogger(id);
 
         var contentType = req.headers["content-type"];
-        if (contentType === "application/vnd.brik.roat.trigger+json") {
+        if (contentType.match(/^application\/vnd\.brik\.roat\.trigger\+json(;.*)?$/)) {
             var id = action.trigger(actionLog, app.subprocessManager);
             if (id != null) {
                 res.setHeader("Location", "/subprocess/" + id);
