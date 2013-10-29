@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+var http = require('http');
 var fs = require('fs');
 var path = require('path');
 var express = require('express');
@@ -61,7 +62,8 @@ process.on('uncaughtException', function(err) {
 });
 
 var expressApp = express();
-require('winston-tagged-http-logger')(expressApp, log.createSublogger("http"));
+var httpServer = expressApp.server = http.createServer(expressApp);
+require('winston-tagged-http-logger')(httpServer, log.createSublogger("http"));
 
 for (var subsystemName in subsystems) {
     if (!subsystems.hasOwnProperty(subsystemName)) continue;
@@ -76,4 +78,4 @@ for (var subsystemName in subsystems) {
 var httpConf = config.http || {};
 var port = argv.port || httpConf.port || 0;
 var bind = argv.bind || httpConf.bind || undefined;
-expressApp.listen(port, bind);
+httpServer.listen(port, bind);
