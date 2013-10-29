@@ -27,6 +27,7 @@ module.exports = function (subprocess, res) {
             exitCode: subprocess.exitCode,
             exitCodeClass: (subprocess.exitCode == null ? "" : (subprocess.exitCode === 0 ? "good" : "bad")),
             pid: subprocess.pid,
+            id: subprocess.id,
             lines: subprocess.output.slice(-1000).map(function (line) {
                 return {
                     class: line.stream,

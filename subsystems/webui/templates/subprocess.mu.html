@@ -3,11 +3,25 @@
 <head>
     <title>{{title}}</title>
     <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <script src="../../socket.io/socket.io.js"></script>
     <script>
     window.onload = function (event) {
         var output = document.getElementById("output");
         output.scrollTop = output.scrollHeight;
     };
+
+    var url = window.location.toString();
+    var outputSource = url.replace(/\/\d+(\?.+)?$/, '/output/{{id}}')
+    var output = io.connect(outputSource);
+    output.on('line', function(lineHtml) {
+      var lineEl = document.createElement('span');
+      lineEl.className = 'stdout';
+      lineEl.innerHTML = lineHtml + '\n';
+      var outputEl = document.querySelector("#output")
+      outputEl.appendChild(lineEl);
+      if (outputEl.scrollHeight - outputEl.scrollTop < outputEl.clientHeight + 25)
+        outputEl.scrollTop = outputEl.scrollHeight;
+    });
     </script>
 </head>
 <body>
