@@ -1,6 +1,7 @@
 var MemoryStream = require('memorystream');
 var express = require('express');
 var mu = require("mu2");
+var socketio = require("socket.io");
 mu.root = __dirname + "/templates";
 
 var views = {
@@ -9,6 +10,9 @@ var views = {
 };
 
 module.exports = function (log, app, expressApp) {
+    var io = socketio.listen(expressApp.server);
+    io.set('log level', 0);
+
     expressApp.use("/static", express.static(__dirname + "/static"));
 
     expressApp.get('/', function (req, res, next) {
@@ -94,4 +98,21 @@ module.exports = function (log, app, expressApp) {
             res.send(415, "415 Unsupported Media Type\n");
         }
     });
+
+    app.subprocessManager.on('newProcess', function createOutputStream(id) {
+      var subprocess = app.subprocessManager.get(id);
+      if (!subprocess) return;
+
+      io.of('/subprocess/' + id + '/output')
+        .on('connection', function(socket) {
+          if (subprocess.exitCode != null) return socket.disconnect(true);
+          subprocess.on('line', function(line) {
+            socket.emit('line', views.subprocess.ansiToHtml(line.line));
+          });
+          subprocess.on('close', function() {
+            socket.disconnect(true);
+          });
+        });
+    });
+
 };

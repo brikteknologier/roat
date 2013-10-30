@@ -1,20 +1,9 @@
 var util = require('util');
 var mu = require('mu2');
 var Convert = require('ansi-to-html');
-
-function htmlFromText(text) {
-    var tagsToReplace = {
-        '&': '&amp;',
-        '<': '&lt;'
-    };
-    return text.replace(/[&<]/g, function(tag) {
-        return tagsToReplace[tag];
-    });
-}
+var convert = new Convert({ fg: "#444" });
 
 module.exports = function (subprocess, res) {
-    var convert = new Convert({ fg: "#444" });
-
     res.writeHead(200, {
         "Content-Type": "text/html;charset=utf8"
     });
@@ -40,3 +29,18 @@ module.exports = function (subprocess, res) {
     stream.on('data', function (d) { res.write(d); });
     stream.on('end', function (d) { res.end(d); });
 };
+
+module.exports.ansiToHtml = function(text) {
+  return convert.toHtml(htmlFromText(text));
+};
+
+var htmlFromText = module.exports.htmlFromText = function htmlFromText(text) {
+    var tagsToReplace = {
+        '&': '&amp;',
+        '<': '&lt;'
+    };
+    return text.replace(/[&<]/g, function(tag) {
+        return tagsToReplace[tag];
+    });
+}
+
