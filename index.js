@@ -63,6 +63,7 @@ process.on('uncaughtException', function(err) {
 
 var expressApp = express();
 var httpServer = expressApp.server = http.createServer(expressApp);
+expressApp.config = config;
 require('winston-tagged-http-logger')(httpServer, log.createSublogger("http"));
 
 for (var subsystemName in subsystems) {

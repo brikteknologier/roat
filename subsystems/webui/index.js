@@ -12,6 +12,8 @@ var views = {
 module.exports = function (log, app, expressApp) {
     var io = socketio.listen(expressApp.server);
     io.set('log level', 0);
+    if (expressApp.config.socketIoTransports)
+      io.set('transports', expressApp.config.socketIoTransports);
 
     expressApp.use("/static", express.static(__dirname + "/static"));
 
