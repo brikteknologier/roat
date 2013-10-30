@@ -28,7 +28,7 @@ module.exports = function (log, app, expressApp) {
            return;
         }
 
-        views.subprocess(subprocess, res);
+        views.subprocess(subprocess, id, res);
     });
 
     expressApp.post(/\/subprocess\/(\d+)$/, function (req, res, next) {
