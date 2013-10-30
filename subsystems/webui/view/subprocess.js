@@ -3,7 +3,7 @@ var mu = require('mu2');
 var Convert = require('ansi-to-html');
 var convert = new Convert({ fg: "#444" });
 
-module.exports = function (subprocess, subprocessId, res) {
+module.exports = function (subprocess, res) {
     res.writeHead(200, {
         "Content-Type": "text/html;charset=utf8"
     });
@@ -16,7 +16,6 @@ module.exports = function (subprocess, subprocessId, res) {
             exitCode: subprocess.exitCode,
             exitCodeClass: (subprocess.exitCode == null ? "" : (subprocess.exitCode === 0 ? "good" : "bad")),
             pid: subprocess.pid,
-            id: subprocessId,
             lines: subprocess.output.slice(-1000).map(function (line) {
                 return {
                     class: line.stream,

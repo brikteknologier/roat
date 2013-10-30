@@ -28,7 +28,7 @@ module.exports = function (log, app, expressApp) {
            return;
         }
 
-        views.subprocess(subprocess, id, res);
+        views.subprocess(subprocess, res);
     });
 
     expressApp.post(/\/subprocess\/(\d+)$/, function (req, res, next) {
@@ -103,7 +103,7 @@ module.exports = function (log, app, expressApp) {
       var subprocess = app.subprocessManager.get(id);
       if (!subprocess) return;
 
-      io.of('/subprocess/output/' + id)
+      io.of('/subprocess/' + id + '/output')
         .on('connection', function(socket) {
           if (subprocess.exitCode != null) return socket.disconnect(true);
           subprocess.on('line', function(line) {
