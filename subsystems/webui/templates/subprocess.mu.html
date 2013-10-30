@@ -11,7 +11,7 @@
     };
 
     var url = window.location.toString();
-    var outputSource = url.replace(/\/(\d+)(\?.+)?$/, '/$1/output')
+    var outputSource = url.replace(/^.*(/subprocess\/\d+)(\?.+)?$/, '$1/output');
     var output = io.connect(outputSource);
     output.on('line', function(lineHtml) {
       var lineEl = document.createElement('span');
