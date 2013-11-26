@@ -100,7 +100,7 @@ trailing slash.
 bitbucket
 ---------
 Roat listens for [bitbucket's POST Service messages][bitbucketPOST] on its
-'/bitbucket' URL.
+`/bitbucket` URL.
 
 [bitbucketPOST]: https://confluence.atlassian.com/display/BITBUCKET/POST+Service+Management
 
