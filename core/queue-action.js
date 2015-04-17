@@ -19,7 +19,6 @@ QueueAction.prototype.trigger = function (log, subprocessManager) {
     function startNew() {
         self.pendingExecution = false;
         self.currentSubprocessId = subprocessManager.execute(self.title, self.cmd, self.cwd, self.env);
-        log.info(self.currentSubprocessId);
 
         var currentSubprocess = subprocessManager.get(self.currentSubprocessId);
         currentSubprocess.on('close', function () {
