@@ -172,7 +172,7 @@ Running
 =======
 When you have configured roat, you can run
 
-    ./index.js
+    npm start
 
 It will output something like:
 

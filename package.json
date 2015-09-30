@@ -4,7 +4,8 @@
   "description": "Continuous integration server",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha -R spec"
+    "test": "node_modules/.bin/mocha -R spec",
+    "start": "node index.js"
   },
   "repository": "git@github.com:brikteknologier/roat.git",
   "author": "Magnus Hoff <magnus.hoff@brik.no>",
